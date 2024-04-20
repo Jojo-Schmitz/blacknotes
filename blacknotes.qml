@@ -28,18 +28,13 @@ MuseScore {
    description: "This plugin paints all chords and rests in black"
    menuPath: "Plugins.Notes.Color Notes in Black"
 
-  
    Component.onCompleted : {
-        if (mscoreMajorVersion >= 4) {
-           title = qsTr("Black Notes") ;
-           // thumbnailName = ".png";
-           categoryCode = "color-notes";
-        }
-    }
-
-
-  
-  
+      if (mscoreMajorVersion >= 4) {
+         title = qsTr("Black Notes") ;
+         // thumbnailName = ".png";
+         categoryCode = "color-notes";
+      }
+   }
 
    MessageDialog {
       id: versionError
@@ -72,7 +67,7 @@ MuseScore {
             if (element.dots[i])
                element.dots[i].color = "black"
             }
-         }          
+         }
       else
          console.log("Unknown element type: " + element.type)         
       }
@@ -81,7 +76,7 @@ MuseScore {
    // or, if nothing is selected, in the entire score
    function applyToChordsAndRestsInSelection(func) {
       var cursor = curScore.newCursor()
-      cursor.rewind(1)
+      cursor.rewind(1) // SELECTION_START
       var startStaff
       var endStaff
       var endTick
@@ -93,7 +88,7 @@ MuseScore {
          }
       else {
          startStaff = cursor.staffIdx;
-         cursor.rewind(2)
+         cursor.rewind(2) // SELECTION_END
          if (cursor.tick === 0) {
             // this happens when the selection includes
             // the last measure of the score.
@@ -108,11 +103,11 @@ MuseScore {
       console.log(startStaff + " - " + endStaff + " - " + endTick)
       for (var staff = startStaff; staff <= endStaff; staff++) {
          for (var voice = 0; voice < 4; voice++) {
-            cursor.rewind(1) // sets voice to 0
+            cursor.rewind(1) // SELECTION_START, sets voice to 0
             cursor.voice = voice //voice has to be set after goTo
             cursor.staffIdx = staff
             if (fullScore)
-               cursor.rewind(0) // if no selection, beginning of score
+               cursor.rewind(0) // SCORE_START, if no selection, beginning of score
 
             while (cursor.segment && (fullScore || cursor.tick < endTick)) {
                if (cursor.element) {
@@ -142,18 +137,15 @@ MuseScore {
       }
 
    onRun: {
-   
-     curScore.startCmd()
-    
       console.log("Hello, Black Notes")
       // check MuseScore version
-     if ((mscoreMajorVersion < 3) || ((mscoreMajorVersion == 3 && mscoreMinorVersion == 0 && mscoreUpdateVersion <= 1)))
-         versionError.open()
-      else
-         applyToChordsAndRestsInSelection(blackenElement)  
-        
-      curScore.endCmd()    
-                   
+      if ((mscoreMajorVersion < 3) || ((mscoreMajorVersion == 3 && mscoreMinorVersion == 0 && mscoreUpdateVersion <= 1)))
+         versionError.open();
+      else {
+         curScore.startCmd();
+         applyToChordsAndRestsInSelection(blackenElement);
+         curScore.endCmd();
+         }
       (typeof(quit) === 'undefined' ? Qt.quit : quit)()
       }
 }
