@@ -4,7 +4,7 @@
 //
 //  Copyright (C)2010 Nicolas Froment (lasconic)
 //  Copyright (C)2014 Jörn Eichler (heuchi)
-//  Copyright (C)2012-2019 Joachim Schmitz (Jojo-Schmitz)
+//  Copyright (C)2012-2024 Joachim Schmitz (Jojo-Schmitz)
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -25,12 +25,12 @@ import MuseScore 3.0
 
 MuseScore {
    version:  "3.0"
-   description: "This plugin paints all chords and rests in black"
+   description: qsTr("This plugin paints all chords and rests in black")
    menuPath: "Plugins.Notes.Color Notes in Black"
 
    Component.onCompleted : {
       if (mscoreMajorVersion >= 4) {
-         title = qsTr("Black Notes") ;
+         title = "Color Notes in Black" ;
          // thumbnailName = ".png";
          categoryCode = "color-notes";
       }
