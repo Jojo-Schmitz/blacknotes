@@ -76,7 +76,7 @@ MuseScore {
    // or, if nothing is selected, in the entire score
    function applyToChordsAndRestsInSelection(func) {
       var cursor = curScore.newCursor()
-      cursor.rewind(1) // SELECTION_START
+      cursor.rewind(Cursor.SELECTION_START)
       var startStaff
       var endStaff
       var endTick
@@ -88,12 +88,12 @@ MuseScore {
          }
       else {
          startStaff = cursor.staffIdx;
-         cursor.rewind(2) // SELECTION_END
+         cursor.rewind(Cursor.SELECTION_END)
          if (cursor.tick === 0) {
             // this happens when the selection includes
             // the last measure of the score.
-            // rewind(2) goes behind the last segment (where
-            // there's none) and sets tick=0
+            // rewind(Cursor.SELECTION_END) goes behind the last segment
+            // (where there's none) and sets tick=0
             endTick = curScore.lastSegment.tick + 1
             }
          else
@@ -103,11 +103,11 @@ MuseScore {
       console.log(startStaff + " - " + endStaff + " - " + endTick)
       for (var staff = startStaff; staff <= endStaff; staff++) {
          for (var voice = 0; voice < 4; voice++) {
-            cursor.rewind(1) // SELECTION_START, sets voice to 0
+            cursor.rewind(Cursor.SELECTION_START) // sets voice to 0
             cursor.voice = voice //voice has to be set after goTo
             cursor.staffIdx = staff
             if (fullScore)
-               cursor.rewind(0) // SCORE_START, if no selection, beginning of score
+               cursor.rewind(Cursor.SCORE_START) // if no selection, beginning of score
 
             while (cursor.segment && (fullScore || cursor.tick < endTick)) {
                if (cursor.element) {
