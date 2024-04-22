@@ -69,7 +69,7 @@ MuseScore {
             }
          }
       else
-         console.log("Unknown element type: " + element.type)         
+         console.log("Unknown element type: " + element.type)
       }
 
    // Apply the given function to all chords and rests in selection
