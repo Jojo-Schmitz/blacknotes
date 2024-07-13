@@ -27,11 +27,14 @@ MuseScore {
    version:  "3.0"
    description: qsTr("This plugin paints all chords and rests in black")
    menuPath: "Plugins.Notes.Color Notes in Black"
+   //4.4 title: "Color Notes in Black"
+   //4.4 thumbnailName: "color_notes.png"
+   //4.4 categoryCode: "color-notes"
 
    Component.onCompleted : {
-      if (mscoreMajorVersion >= 4) {
-         title = "Color Notes in Black" ;
-         // thumbnailName = ".png";
+      if (mscoreMajorVersion >= 4 && mscoreMinorVersion <= 3) {
+         title = "Color Notes in Black";
+         thumbnailName = "color_notes.png";
          categoryCode = "color-notes";
       }
    }
