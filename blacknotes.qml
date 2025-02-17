@@ -66,6 +66,8 @@ MuseScore {
          element.color = "black"
          if (element.accidental)
             element.accidental.color = "black"
+         if (element.tieBack)
+            element.tieBack.color = "black"
          for (var i = 0; i < element.dots.length; i++) {
             if (element.dots[i])
                element.dots[i].color = "black"
